@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+Welcome to dev-tweets
+<div id='tweets'>
+    Loading.......
+</div>
+
+<script>
+    const tweetElements = document.getElementById("tweets")
+    const xhr = new XMLHttpRequest()
+    const method = 'GET'
+    const url = '/tweets'
+    const responsType = 'json'
+
+    xhr.responseType = responsType
+    xhr.open(method,url)
+    xhr.onload = function(){
+        const serverResponse = xhr.response 
+        const listedItems = serverResponse.response
+        var finalTweetStr = ''
+        var i;
+        for (i=0;i<listedItems.length;i++){
+            var currentItem = "<div class='mb-4'> <h1>" + listedItems[i].id + "</h1>" + "<p>" + listedItems[i].content + "</p><div>"
+            finalTweetStr += currentItem 
+        }
+        tweetElements.innerHTML = finalTweetStr
+        console.log(listedItems)
+    }
+    xhr.send()
+</script>
+{% endblock content %}
